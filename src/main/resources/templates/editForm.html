@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+ <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System </title>
+    <link rel = "stylesheet" type = "text/css" title = "melodious style" th:href = "@{/css/editForm.css}"> 
+</head>
+<body>
+    
+        <div th:if="${successMessage}" class = " alert alert-success" role = "alert">
+            <strong th:text="${successMessage}"></strong>
+            <button class = "btn btn-close" data-bs-dismiss = "alert" aria-label = "Close" type = "button"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class=" alert alert-danger"  role = "alert">
+            <strong th:text="${errorMessage}"></strong>
+            <button class = "btn btn-close" data-bs-dismiss = "alert" aria-label = "Close" type = "button"></button>
+       </div>
+       
+    <div class = "container-fluid">
+        <div class="row">
+            <div class="col card col-md-6 col-lg-6 col-sm-6">
+                <h3 class="card-title text-center">Update Item</h3>
+                    <div class="card-body fw-bold">
+                            <form th:action="@{'/items/update/' + ${item.id}}" method = "post" th:object = "${item}">
+                                <div class="form-group">
+                                    <label for="itemName" class = "form-label">Item Name:</label>
+                                    <input type="text" id = "itemName" aria-label = "itemName" class = "form-control" name = "itemName" placeholder="Enter the item Name" th:field="*{itemName}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="prices" class = "form-label">Item Prices:</label>
+                                    <input type="text" aria-label = "prices" id = "prices" class = "form-control" name = "prices" placeholder="Enter the item Name" th:field="*{prices}">
+                                </div>
+                                <div class="from-group  ">
+                                    <label for="id" class = "form-label">Item Id:</label>
+                                    <input type="text" id = "id" aria-label = "id" class = "form-control" name = "id" placeholder="Enter the item Name" th:field="*{id}">
+                                </div>
+                                <div class = "btn-group">
+                                    <button class = "btn btn-primary mt-4 " type = "submit">Update</button>
+                                </div>
+                            </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

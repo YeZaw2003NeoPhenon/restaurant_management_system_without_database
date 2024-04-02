@@ -1,0 +1,27 @@
+        h1{
+            font-weight: bold;
+            color:hsl(5, 94%, 61%);
+            text-shadow: 2px 2px 2px hsl(0, 43%, 73%);
+        }
+        .container{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            flex-direction: column;
+            padding:20px;
+            border:1px solid hsl(0, 12%, 84%);
+            width:500px;
+            border-radius: 10px;
+            box-shadow: 1px 4px 8px 4px rgba(0, 0, 0, 0.1); 
+        }
+        .form-group{
+            padding:10px;
+            font-weight: bold;
+        }
+        .btn{
+            font-weight: bold;
+            display:block;
+            margin: 0 auto;
+            text-transform: uppercase;
+            margin-top:10px;
+        }

@@ -1,0 +1,27 @@
+       h3{
+            font-weight: bold;
+            font-family:Arial, Helvetica, sans-serif;
+            color:hsl(120, 82%, 71%);
+            text-shadow: 1px 1px 2px black;
+        }
+        .card{
+            margin:0 auto;
+            margin-top: 100px;
+            padding:20px;
+            box-shadow: 1px 1px 4px hsl(0, 3%, 64%);
+            background-color: hsl(34, 60%, 84%);
+            border:1px solid black;
+        }
+        .card-body{
+            width:300px;
+            margin:0 auto;
+        }
+        form{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+        .form-group{
+            margin-top:20px;
+        }
