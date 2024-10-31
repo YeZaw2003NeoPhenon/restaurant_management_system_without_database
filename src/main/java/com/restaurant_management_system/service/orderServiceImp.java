@@ -34,8 +34,8 @@ public class orderServiceImp implements OrderService{
 	}
 
 	@Override
-	public void updateOrder(int id , Order updatedOrder) {
-		orderRepository.updateOrder(id, updatedOrder);
+	public boolean updateOrder(int id , Order updatedOrder) {
+		return orderRepository.updateOrder(id, updatedOrder);
 	}
 
 	@Override

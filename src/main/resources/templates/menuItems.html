@@ -2,6 +2,7 @@
 <html lang="Eng-Us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,48 +10,44 @@
     <meta name = "description" content = "Stupefying Restaurant Management System">
     <link rel = "stylesheet" type = "text/css" th:href = "@{/css/menuItems.css}">
     <title>Restaurant Management System </title>
-    <style>
-
-    </style>
 </head>
 <body>
 
-	<div th:if = "${successMessage}" class ="alert alert-success " role = "alert">
-		<span th:text = "${successMessage}"></span>
-	</div>
-	
-    <article>
-        <div class = "container">
-          <div class = "row">
-            <div class = "col">
-                <a role = "button" class = "btn btn-primary addBtn" data-bs-target = "#modalForm" data-bs-toggle = "modal" >Add Item</a>
-            <table class = "table table-bordered table-striped ">
-              <thead>
-                  <tr>
-                      <th>Item Name:</th>
-                      <th>Item Prices:</th>
-                      <th>Item Id:</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr th:each="menu : ${menuDatas}">
-                      <td th:text="${menu.itemName}"></td>
-                      <td th:text="${menu.prices}"></td>
-                      <td th:text="${menu.id}"></td>
-                     <td class = "d-flex align-items-center justify-content-center gap-3">
-                      <a th:href = "@{ '/items/delete/' + ${menu.id}}" class="btn btn-danger deleteBtn">Delete Item</a>
-                      <a th:href = "@{'/items/edit/' + ${menu.id}}" class = "btn btn-primary editBtn">Edit Item</a>
-                      </td>
-                  </tr>
-                 <!-- we can't meretriciously bang away with (id = ${menu.id} in here , and that is constriant -->
-              </tbody>
-                  </table>
-            </div> 
-          </div>
+  <article>
+   
+ <div class = "container">
+       
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" th:if="${successMessage}">
+  <div class="toast-header">
+    <strong class="me-auto">Success Message</strong>
+    <small class="text-muted">just now</small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    <span th:text="${successMessage}"> </span>
+  </div>
+</div>
+       <h1 class = "text-center fw-bold">Our Menu</h1>
+        	
+        	<div class = "btn-container">
+        		<a role = "button" class = "btn btn-primary addBtn" data-bs-toggle = "modal" data-bs-target = "#modalForm">Add Item</a>
+        		<a role = "button" class = "btn btn-primary placeOrderBtn" th:href="@{/orders}">View Order</a>
+        	</div>
+       	<div class="card-container">
+            <div class="menu-card" th:each="menu : ${menuDatas}">
+                <h3 th:text="${menu.itemName}"></h3>
+                <p>Price: $<span th:text="${menu.prices}"></span></p>
+                <p class = "description">Description: <span th:text="${menu.description}"></span></p>
+               
+                <div class="btn-container">
+                    <a th:href="@{'/items/edit/' + ${menu.id}}" class="btn btn-primary btn-sm editBtn">Edit</a>
+                    <a th:href="@{'/items/delete/' + ${menu.id}}" class="btn btn-danger btn-sm deleteBtn">Delete</a>
+                </div>
+            </div>
         </div>
-        </article>
-        
+        </div>
+    </article>
+       
         <div class="modal modal-fullscreen fade" id = "modalForm" aria-hidden="true" role = "dialog">
             <div class="modal-dialog mt-5" role = "document">
                 <div class="modal-content">
@@ -69,10 +66,10 @@
                                 <input type="number" class = "form-control" aria-label = "prices" id = "prices" name = "prices" th:field ="*{prices}" placeholder="Entetr the price">
                            
                             </div>
-                            <div class="form-group" >
-                                <label for="id" class = "form-label fw-bold mt-3" >Item Id:</label>
-                                <input type="number" class = "form-control" aria-label = "id"  id = "id" name = "id" th:field="*{id}" placeholder="Entetr the item id">
-                            </div>
+							<div class="form-group">
+    							<label for="description" class="form-label fw-bold mt-3">Description:</label>
+    							<textarea class="form-control" aria-label="description" id="description" name="description" th:field="*{description}" placeholder="Enter a brief description"></textarea>
+							</div>
                             <div class="modal-footer">
                                     <button class = "btn btn-primary submitBtn" type = "submit" >Add Items</button>
                                     <button class = "btn btn-danger " type = "button"  data-bs-dismiss = "modal" aria-haspopup="true">Close</button>
@@ -82,6 +79,23 @@
                 </div>
             </div>
         </div>
-        <a role = "button" class="btn btn-primary placeOrderBtn" th:href="@{/orders}">View Order</a>
+        
+   <script>
+   document.addEventListener('DOMContentLoaded', function () {
+       var toastEl = document.querySelector('.toast');
+       if (toastEl) {
+           var toast = new bootstrap.Toast(toastEl);
+           toast.show(); 
+       }
+       
+       toastEl.classList.add('fadeIn');
+       setTimeout(function() {
+           toastEl.classList.remove('fadeIn');
+           toastEl.classList.add('fadeOut');
+       }, 5000);
+       
+   });
+       
+</script>
 </body>
 </html>

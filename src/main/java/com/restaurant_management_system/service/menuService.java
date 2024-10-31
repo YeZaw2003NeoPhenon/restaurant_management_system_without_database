@@ -6,7 +6,7 @@ import com.restaurant_management_system.model.menuItems;
 
 public interface menuService {
 	
- public abstract void getAllItems();
+// public abstract void getAllItems();
  
  public abstract List<menuItems> listItems();
  
@@ -14,9 +14,9 @@ public interface menuService {
  
  public abstract menuItems getItemById(int id );
  
- public abstract void deleteItem( int id);
+ public abstract boolean deleteItem( int id);
  
-
-public abstract boolean  updateItem(int id, menuItems item);
-
+ public abstract boolean  updateItem(int id, menuItems item);
+ 
+ public abstract List<menuItems> getSelectedMenuItems(String[] menuItemsIds);
 }

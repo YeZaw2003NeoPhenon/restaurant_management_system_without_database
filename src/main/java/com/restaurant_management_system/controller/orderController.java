@@ -1,7 +1,5 @@
 package com.restaurant_management_system.controller;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,32 +53,68 @@ public class orderController {
 	}
 	
 	@RequestMapping( value = "/saveDatas" , method = RequestMethod.POST)
-	public ModelAndView createOrder( @ModelAttribute Order order , RedirectAttributes redirectAttributes , HttpServletRequest request ){
+	public ModelAndView saveOrderDatas( @ModelAttribute Order order , RedirectAttributes redirectAttributes , HttpServletRequest request ){
 		
 		ModelAndView modelAndView = new ModelAndView();
-		double totalPrices = 0 ;
+		
 		String[] menuItemsIds = request.getParameterValues("menuItem");
-		if( menuItemsIds != null ) {
-			List<menuItems> selectedItems = new ArrayList<>();
-			for( String menuId : menuItemsIds) {
-				 // we gonna have indespensibly have to turn it into obj and add it into arraylist
-				menuItems menuItems = menuServiceImp.getItemById(Integer.parseInt(menuId));
-				selectedItems.add(menuItems);
-				totalPrices += menuItems.getPrices() * order.getQuantity();
-			}
+			
+			List<menuItems> selectedItems = menuServiceImp.getSelectedMenuItems(menuItemsIds);
+			double totalPrices = menuServiceImp.calculateTotalPrices(selectedItems,order.getQuantity());
+			
 			order.setTotal_prices(totalPrices);
 			order.setItem_list(selectedItems);
-		}
+		
 		redirectAttributes.addFlashAttribute("successMessage", "you ordered item graciously!");
 		orderServiceImp.insertIntoOrder(order);
-		modelAndView.setViewName("redirect:/orders"); // just sagaciously redirecting to order page after creating order 
+		modelAndView.setViewName("redirect:/orders"); 
+		return modelAndView;
+	}
+//	
+//	@RequestMapping(value = "/edit/{orderId}" , method = RequestMethod.GET)
+//	public ModelAndView editOrder( @PathVariable int orderId) {
+//		ModelAndView modelAndView = new ModelAndView();
+//		Order order = orderServiceImp.findOrderById(orderId);
+//		modelAndView.addObject("order",order);
+//		modelAndView.setViewName("editOrder");
+//		return modelAndView;
+//	}
+	
+	@RequestMapping(value = "/update" , method = RequestMethod.POST)
+	public ModelAndView updateOrder( @RequestParam(name = "orderId") int orderId , @ModelAttribute Order order , RedirectAttributes redirectAttributes , HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
+	String[] menuItemsIds = request.getParameterValues("menuItem");
+	
+	List<menuItems> selectedItems = menuServiceImp.getSelectedMenuItems(menuItemsIds);
+	double totalPrices = menuServiceImp.calculateTotalPrices(selectedItems, order.getQuantity());
+	
+	System.out.println("Total Prices calculated: " + totalPrices);
+	
+	order.setTotal_prices(totalPrices);
+	order.setItem_list(selectedItems);
+	
+	boolean isUpdated =	orderServiceImp.updateOrder(orderId, order);
+	
+	if(isUpdated) {
+		redirectAttributes.addFlashAttribute("successMessage", "you updated item triumphantly!");
+	}
+	else {
+		redirectAttributes.addFlashAttribute("errorMessage", "There is something slipped away while struggling to update item");
+	}
+		modelAndView.setViewName("redirect:/orders");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/delete/{orderId}" , method = RequestMethod.GET)
+	public ModelAndView deleteOrder(@PathVariable int orderId) {
+		ModelAndView modelAndView = new ModelAndView();
+		orderServiceImp.deleteOrder(orderId);
+		modelAndView.setViewName("redirect:/orders");
 		return modelAndView;
 	}
 	
-//  just flesh out my autonomous demostrations that i get carried away with boredorm to create  updaet and delete here as it turn out to be same logic from menu items(CRUD)//
 	@RequestMapping(value = "/checkIn/{orderId}" , method = RequestMethod.POST)
 	public ModelAndView checkInOrder(@PathVariable int orderId){
-		
 		ModelAndView modelAndView = new ModelAndView();
 		orderServiceImp.checkedInOrder(orderId);
 		modelAndView.setViewName("redirect:/orders");
@@ -89,19 +123,11 @@ public class orderController {
 	
 	@RequestMapping(value = "/checkOut/{orderId}" , method = RequestMethod.POST)
 	public ModelAndView checkOutOrder(@PathVariable int orderId){
-		
 		ModelAndView modelAndView = new ModelAndView();
 		orderServiceImp.checkedOutOrder(orderId);
-		modelAndView.setViewName("redirect:/orders");
+		modelAndView.setViewName("redirect:/orders"); 
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/delete/{orderId}" , method = RequestMethod.GET)
-	public ModelAndView deleteOrder(@PathVariable int orderId) {
-		ModelAndView modelAndView = new ModelAndView();
-		orderServiceImp.deleteOrder(orderId);
-		modelAndView.setViewName("redirect:/orders");
-		return modelAndView;
-	}
 	
 }

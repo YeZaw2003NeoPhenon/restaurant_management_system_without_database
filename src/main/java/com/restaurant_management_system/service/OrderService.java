@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.restaurant_management_system.model.Order;
 
+
 public interface  OrderService {
 	public abstract List<Order> getAllOrders();
 	
@@ -11,7 +12,7 @@ public interface  OrderService {
 	
 	public abstract void deleteOrder(int id );
 	
-	public abstract void updateOrder(int id , Order updatedOrder);
+	public abstract boolean updateOrder(int id , Order updatedOrder);
 	
 	public abstract Order findOrderById(int id );
 	

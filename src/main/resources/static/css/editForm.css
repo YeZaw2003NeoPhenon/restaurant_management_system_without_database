@@ -1,27 +1,65 @@
-       h3{
-            font-weight: bold;
-            font-family:Arial, Helvetica, sans-serif;
-            color:hsl(120, 82%, 71%);
-            text-shadow: 1px 1px 2px black;
-        }
-        .card{
-            margin:0 auto;
-            margin-top: 100px;
-            padding:20px;
-            box-shadow: 1px 1px 4px hsl(0, 3%, 64%);
-            background-color: hsl(34, 60%, 84%);
-            border:1px solid black;
-        }
-        .card-body{
-            width:300px;
-            margin:0 auto;
-        }
-        form{
-            display:flex;
-            flex-direction: column;
+   .container-fluid {
+            display: flex;
             justify-content: center;
-
+            align-items: center;
+            min-height: 100vh;
+            background-color: hsl(34, 60%, 94%);
         }
-        .form-group{
-            margin-top:20px;
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: hsl(34, 60%, 98%);
+            border-radius: 8px;
+            transition: transform 0.2s;
+            width:400px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h3 {
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            color: hsl(120, 82%, 31%);
+            text-shadow: 1px 1px 2px hsl(0, 0%, 50%);
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            position: relative;
+        }
+        .form-control {
+            padding: 10px;
+            border: 1px solid hsl(0, 0%, 80%);
+            border-radius: 5px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control:focus {
+            border-color: hsl(120, 82%, 41%);
+            box-shadow: 0 0 8px hsl(120, 82%, 61%);
+        }
+        
+        .btn-primary {
+            background-color: hsl(120, 82%, 41%);
+            border-color: hsl(120, 82%, 41%);
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+            padding: 8px 16px;
+        }
+        .btn-primary:hover {
+            background-color: hsl(120, 82%, 51%);
+            transform: translateY(-3px);
+        }
+
+        .alert {
+            max-width: 400px;
+            margin: 10px auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }

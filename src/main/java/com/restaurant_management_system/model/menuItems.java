@@ -17,12 +17,17 @@ public class menuItems {
 	@Setter
 	private int id;
 	
+	@Getter
+	@Setter
+	private String description;
+	
 	public menuItems() {}
 	
-	public menuItems(String itemName, double prices, int id) {
+	public menuItems( int id ,String itemName, double prices, String description) {
+		this.id = id;
 		this.itemName = itemName;
 		this.prices = prices;
-		this.id = id;
+		this.description = description;
 	}
 	
 }

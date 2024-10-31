@@ -5,33 +5,54 @@
            font-family: Arial, sans-serif;
            background-color: #f0f0f0;
 }
-table {
-  		max-width: 100%;
-    	margin: 50px auto;
-   	   border-collapse: collapse;
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 30px;
 }
 
-thead tr {
-    background-color: #007bff;
-    color: #fff;
+.menu-card {
+    width: 400px; 
+    padding: 30px; 
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menu-card h3 {
+    font-size: 1.5rem; /* Larger font size */
+    margin-bottom: 15px;
     font-weight: bold;
-    text-align:center;
 }
 
-tbody tr:hover {
-    background-color: #cce5ff;
+.menu-card p {
+    margin: 10px 0;
+    color: #555;
+    font-size: 1rem;
 }
 
-td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align:center;
+.menu-card .description {
+    font-style: italic;
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Keeps it on a single line */
 }
 
+ .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
 .addBtn {
    display:block;
-    margin-top:100px;
-    margin-bottom:-30px;
     width:10rem;
     font-weight: bold;
     padding: 10px 20px;
@@ -59,12 +80,9 @@ td {
 
 .placeOrderBtn{
 	display:block;
-	margin-left:100px;
-	width:10rem;
 	font-weight:bold;
 	padding:10px;
 }
-
 
 .deleteBtn {
     background-color: #dc3545;
@@ -83,9 +101,7 @@ td {
 
 .modal-footer {
     justify-content: flex-end;
-}
- 	/* I autonomously branch out stying intricately based on the particular selections of input (type elements)*/
- 	
+} 	
 .modal-body input[type="text"],
 .modal-body input[type="number"] {
     width: 100%;
@@ -128,3 +144,62 @@ td {
 .modal-body input[type="button"]:hover {
     background-color: #c82333;
 }
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px; 
+    z-index: 1050;
+    min-width: 300px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.toast.show {
+    opacity: 1; 
+}
+
+.toast-header {
+  	background-color: #4dff17;
+    color: #ffffff; 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 10px;
+}
+
+.toast-body {
+    background-color: #ffffff; 
+    color: #333;
+    border-bottom-left-radius: 8px; 
+    border-bottom-right-radius: 8px; 
+    font-weight:bold;
+    padding: 10px;
+}
+
+
+.toast .btn-close {
+    color: #ffffff; 
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+

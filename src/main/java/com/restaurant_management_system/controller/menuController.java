@@ -25,8 +25,6 @@ public class menuController {
 	public ModelAndView viewAllItems(){
 		ModelAndView modelAndView = new ModelAndView();
 
-		menuServiceImp.getAllItems();
-		
 		List<menuItems> menuDatas = menuServiceImp.listItems();
 		modelAndView.addObject("menuDatas", menuDatas);
 		modelAndView.addObject("item", new menuItems());
@@ -47,10 +45,16 @@ public class menuController {
 	}
 	
 	@RequestMapping( value ="/items/delete/{id}" , method = RequestMethod.GET)
-	public ModelAndView deleteItem( @PathVariable int id ) {
+	public ModelAndView deleteItem( @PathVariable int id , RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView();
+		boolean isDeleted = menuServiceImp.deleteItem(id);
+		if(isDeleted) {
+			redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully!");
+		}
+		else {
+			redirectAttributes.addFlashAttribute("errorMessage", "Something unbashedly wrong while trying to delete item!");
+		}
 		modelAndView.setViewName("redirect:/items");
-		menuServiceImp.deleteItem(id);
 		return modelAndView;
 	}
 	
@@ -65,8 +69,8 @@ public class menuController {
 		return modelAndView;
 	}
 	
-	@RequestMapping( value ="/items/update/{id}" , method = RequestMethod.POST)
-	public ModelAndView updateMenuItems( @PathVariable int id , @ModelAttribute menuItems updatedItem , RedirectAttributes redirectAttributes) {
+	@RequestMapping( value ="/items/update/{id}" , method = RequestMethod.POST) // /items/update
+	public ModelAndView updateMenuItems( @PathVariable int id , @ModelAttribute menuItems updatedItem , RedirectAttributes redirectAttributes){
 		ModelAndView modelAndView = new ModelAndView();
 		
 		boolean isSuccess =  menuServiceImp.updateItem(id, updatedItem);

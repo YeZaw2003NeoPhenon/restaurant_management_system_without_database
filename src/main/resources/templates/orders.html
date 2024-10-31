@@ -12,14 +12,28 @@
     <title> Mellifluous Order menu table</title>
 </head>
 <body>
+ 	<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" th:if="${successMessage}">
+  		<div class="toast-header">
+    	<strong class="me-auto">Success Message</strong>
+    	<small class="text-muted">just now</small>
+    	<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  	</div>
+  	  <div class="toast-body">
+    		<span th:text="${successMessage}"></span>
+  			</div>
+     </div>
+     <div class = "alert alert-message text-danger alert-disimissible" th:if = "${errorMessage}">
+     	<p th:text= "${errorMessage}"></p>
+     </div>
+     
     <aside class="container">
-        <div class="card">
-           <div class="card-body">
+          <div class="card">
+           <div class="card-body">    
             <h3 class = "card-title"> Voraciously welcome to our Restaurant</h3>
             <p class = "card-subtitle"> Would you like to order anything</p>
             <p class = "card-subtitle">Please Reach out here...</p>
             <a  type = "button" class = "btn btn-outline-success" th:href = "@{/create}">Create Order</a>
-           </div>
+          </div>
         </div>
         <div class="row">
             <div class="col">  
@@ -42,17 +56,18 @@
                             <td th:text="${order.customer_name}"></td>
                             <td>
                                 <ul th:each="item : ${order.item_list}">
-                                    <li th:text="${item.itemName + ' - $' + item.prices}"></li>
+                                    <li th:text = "${'Menu- ' +item.itemName}"></li>
+                                    <li th:text = "${'Price- ' +item.prices + '$'}"></li>
                                 </ul>
                             </td>
                             <td th:text = "${order.quantity}"></td>
-                            <td th:text="${order.total_prices}"></td>
+                            <td th:text="${order.total_prices + '$'}"></td>
                              
                        <td>
-                        <form th:if="${!order.checkIn}" th:action="@{'/checkIn/' + ${order.order_id}}" method="post">
+                        <form th:if = "${!order.checkIn}" th:action = "@{'/checkIn/' + ${order.order_id}}" method="post">
                            <button type="submit" class="btn btn-primary">Check In</button>
                         </form>
-                        <span th:if="${order.checkIn}">Checked In</span>
+                        <span th:if ="${order.checkIn}">Checked In</span> 
                       </td>
                       <td>
                         <form th:if="${order.checkIn && !order.checkOut}" th:action = "@{'/checkOut/' + ${order.order_id}}" method="post">
@@ -60,8 +75,9 @@
                         </form>
                         <span th:if="${order.checkOut}">Checked Out</span> <!-- just verb rejuvanations -->
                     </td>
-                    <td>
-                    	<a  th:href = "@{'/delete/' + ${order.order_id}}" class = "btn btn-danger btn-sm ">Delete</a>
+                    <td class = "d-flex align-items-center justify-content-center gap-3">
+                    	<a th:href = "@{'/delete/' + ${order.order_id}}" class = "btn btn-danger delete-btn rounded-pill w-100" aria-label = "delete-btn">Delete</a>
+                    	<a type = "button" class = "btn btn-warning edit-btn rounded-pill w-100 p-2" data-bs-toggle = "modal" th:data-bs-target = "'#editOrderModal' + ${order.order_id}">Edit</a>
                     </td>
                         </tr>
                     </tbody>
@@ -69,5 +85,61 @@
             </div>
         </div>
     </aside>
+    <div th:each = "order : ${ordersItems}" th:id = "'editOrderModal' + ${order.order_id}" class="modal fade" tabindex="-1" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+    	 <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Order - ID: <span th:text="${order.order_id}"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/update}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" th:value="${order.order_id}" name="order_id"/>
+                        <div class="mb-3">
+                            <label for="customerName" class="form-label">Customer Name</label>
+                            <input type="text" class="form-control" id="customerName" th:value="${order.customer_name}" name="customer_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="editQuantity" th:value="${order.quantity}" name="quantity" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTotalPrices" class="form-label">Total Prices</label>
+                            <input type="text" class="form-control" id="editTotalPrices" th:value="${order.total_prices}" name="total_prices" required>
+                        </div>
+                     <div class="mb-3">
+                        <label for="menuItem" class="form-label">Menu Items</label>
+                        <ul class="list-group" id="menuItem">
+                            <li th:each="menuItem : ${order.item_list}" class="list-group-item">
+                                <span th:text="${menuItem.itemName}"></span> - 
+                                <span th:text="${menuItem.prices} + '$'"></span>
+                                <input type="hidden" th:value="${menuItem.id}" name="menuItem" />
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    	
+    </div>
+ <script>
+ document.addEventListener('DOMContentLoaded', function () {
+     var toastEl = document.querySelector('.toast');
+     if (toastEl) {
+         var toast = new bootstrap.Toast(toastEl);
+         toast.show(); 
+         setTimeout(function() {
+             toast.hide();
+             toastEl.classList.remove('show');
+         }, 5000);
+     }
+     
+ });
+</script>
 </body>
 </html>

@@ -12,10 +12,6 @@ public class Order {
 	
 	@Getter
 	@Setter
-	private List<menuItems>item_list;
-	
-	@Getter
-	@Setter
 	private String customer_name;
 	
 	@Getter
@@ -34,6 +30,10 @@ public class Order {
 	@Setter
 	private int quantity;
 	
+	@Getter
+	@Setter
+	private List<menuItems>item_list; // in db , this should be chivolously one to many
+	
 	public Order() {}
 	
 	public Order(int order_id, List<menuItems> item_list, String customer_name, double total_prices, boolean checkIn,
@@ -48,14 +48,11 @@ public class Order {
 	}
 
 	public Order(int order_id, List<menuItems> item_list, String customer_name, double total_prices, int quantity) {
-		super();
 		this.order_id = order_id;
 		this.item_list = item_list;
 		this.customer_name = customer_name;
 		this.total_prices = total_prices;
 		this.quantity = quantity;
 	}
-
-
 	
 }

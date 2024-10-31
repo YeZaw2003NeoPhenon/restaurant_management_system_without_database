@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Management System </title>
-    <link rel = "stylesheet" type = "text/css" title = "melodious style" th:href = "@{/css/editForm.css}"> 
+    <link rel = "stylesheet" type = "text/css" title = "valiant and melodious styling" th:href = "@{/css/editForm.css}"> 
 </head>
 <body>
     
-        <div th:if="${successMessage}" class = " alert alert-success" role = "alert">
+<!--        <div th:if="${successMessage}" class = " alert alert-success" role = "alert">
             <strong th:text="${successMessage}"></strong>
             <button class = "btn btn-close" data-bs-dismiss = "alert" aria-label = "Close" type = "button"></button>
         </div>
@@ -20,6 +20,7 @@
             <strong th:text="${errorMessage}"></strong>
             <button class = "btn btn-close" data-bs-dismiss = "alert" aria-label = "Close" type = "button"></button>
        </div>
+    -->
        
     <div class = "container-fluid">
         <div class="row">
@@ -35,10 +36,15 @@
                                     <label for="prices" class = "form-label">Item Prices:</label>
                                     <input type="text" aria-label = "prices" id = "prices" class = "form-control" name = "prices" placeholder="Enter the item Name" th:field="*{prices}">
                                 </div>
-                                <div class="from-group  ">
+  <!--                           <div class="from-group  ">
                                     <label for="id" class = "form-label">Item Id:</label>
                                     <input type="text" id = "id" aria-label = "id" class = "form-control" name = "id" placeholder="Enter the item Name" th:field="*{id}">
                                 </div>
+     -->
+     						 	<div class = "form-group">
+     						 		<label for="description" class = "form-label">Description:</label>
+                                    <textarea id = "description" aria-label = "description" class = "form-control" name = "description" placeholder="Enter the Item Description" th:field="*{description}"></textarea>
+     						 	</div>
                                 <div class = "btn-group">
                                     <button class = "btn btn-primary mt-4 " type = "submit">Update</button>
                                 </div>
