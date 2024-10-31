@@ -10,7 +10,7 @@ public interface  OrderService {
 	
 	public abstract void insertIntoOrder(Order order);
 	
-	public abstract void deleteOrder(int id );
+	public abstract boolean deleteOrder(int id );
 	
 	public abstract boolean updateOrder(int id , Order updatedOrder);
 	
@@ -20,4 +20,5 @@ public interface  OrderService {
 	
 	public abstract void checkedOutOrder( int orderId );
 	
+	public abstract List<Order> searchOrders(String query);
 }

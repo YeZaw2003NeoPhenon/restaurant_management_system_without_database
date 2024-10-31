@@ -1,11 +1,13 @@
 package com.restaurant_management_system.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
 public class Order {
+	
 	@Getter
 	@Setter
 	private int order_id;
@@ -25,6 +27,14 @@ public class Order {
 	@Getter
 	@Setter
 	private boolean checkOut;
+	
+	@Getter
+	@Setter
+	private LocalDate checkInDate;
+	
+	@Getter
+	@Setter
+	private LocalDate checkOutDate;
 	
 	@Getter
 	@Setter

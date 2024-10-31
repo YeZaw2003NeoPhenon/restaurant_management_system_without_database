@@ -27,10 +27,9 @@ public class orderServiceImp implements OrderService{
 		orderRepository.InsertIntoOrder(order);
 	}
 
-
 	@Override
-	public void  deleteOrder(int id) {
-	  orderRepository.deleteOrder(id);
+	public boolean  deleteOrder(int id) {
+	  return orderRepository.deleteOrder(id);
 	}
 
 	@Override
@@ -52,6 +51,11 @@ public class orderServiceImp implements OrderService{
 	public void checkedOutOrder(int orderId) {
 		orderRepository.checkedOutOrder(orderId);
 		
+	}
+	
+	@Override
+	public List<Order> searchOrders(String query) {
+		return orderRepository.searchOrders(query);
 	}
 	
 }

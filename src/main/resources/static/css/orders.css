@@ -53,12 +53,13 @@ body {
 
 
 .table {
-    max-width: 1000px;
+    max-width: 50rem;
     margin: 0 auto;
     table-layout: auto;
 }
 
 .table-head th {
+	width:200px;
     font-size: 1rem;
     background-color: hsl(160, 88%, 40%);
     color: white;

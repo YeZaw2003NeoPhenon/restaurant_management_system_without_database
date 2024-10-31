@@ -7,6 +7,10 @@ public class menuItems {
 	
 	@Getter
 	@Setter
+	private int id;
+	
+	@Getter
+	@Setter
 	private String itemName;
 	
 	@Getter
@@ -15,11 +19,14 @@ public class menuItems {
 	
 	@Getter
 	@Setter
-	private int id;
+	private String description;
 	
 	@Getter
 	@Setter
-	private String description;
+	
+	
+	private Order order;
+	// many to one 
 	
 	public menuItems() {}
 	

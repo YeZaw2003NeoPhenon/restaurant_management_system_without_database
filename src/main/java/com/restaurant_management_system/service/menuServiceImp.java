@@ -53,7 +53,7 @@ public class menuServiceImp implements menuService{
 			}
 		}
 	}
-	  return selectedItems;
+	  return selectedItems.isEmpty() ? null : selectedItems;
 	}
 
 	public double calculateTotalPrices(List<menuItems> selectedItems, int quantity) {

@@ -25,7 +25,7 @@ public class DefaultMenus {
 						new menuItems(4,"Sunkit" , 10.50 , "Natural taste"));
 				for( menuItems items : list ) {
 					menuRepo.menuMap.put( items.getId(), items);
-					}
+				}
 				menuRepo.nextId = 
 						menuRepo.menuMap.keySet()
 						.stream()

@@ -3,7 +3,6 @@ package com.restaurant_management_system.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.restaurant_management_system.model.Order;
 import com.restaurant_management_system.model.menuItems;
 import com.restaurant_management_system.service.menuServiceImp;
@@ -106,10 +104,26 @@ public class orderController {
 	}
 
 	@RequestMapping(value = "/delete/{orderId}" , method = RequestMethod.GET)
-	public ModelAndView deleteOrder(@PathVariable int orderId) {
+	public ModelAndView deleteOrder(@PathVariable int orderId , RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView = new ModelAndView();
-		orderServiceImp.deleteOrder(orderId);
+	 boolean isDeleted = orderServiceImp.deleteOrder(orderId);
+	 if(isDeleted) {
+		 redirectAttributes.addFlashAttribute("successMessage" , "you deleted Item successfully!");
+	 }
+	 else {
+		 redirectAttributes.addFlashAttribute("errorMessage", "you deleted Item successfully!");
+	 }
 		modelAndView.setViewName("redirect:/orders");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/search" , method = RequestMethod.GET)
+	public ModelAndView searchOrders(@RequestParam String query) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+	List<Order> filteredOrders	= orderServiceImp.searchOrders(query);
+		modelAndView.addObject("ordersItems",filteredOrders);
+		modelAndView.setViewName("orders");
 		return modelAndView;
 	}
 	
@@ -128,6 +142,5 @@ public class orderController {
 		modelAndView.setViewName("redirect:/orders"); 
 		return modelAndView;
 	}
-	
 	
 }

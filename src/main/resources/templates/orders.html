@@ -30,6 +30,10 @@
           <div class="card">
            <div class="card-body">    
             <h3 class = "card-title"> Voraciously welcome to our Restaurant</h3>
+            <form class="d-flex mb-3" th:action="@{/search}" method="get">
+            <input class="form-control me-2" type="search" name="query" placeholder="Search by customer name, order ID, or menu item" aria-label="Search" required>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
             <p class = "card-subtitle"> Would you like to order anything</p>
             <p class = "card-subtitle">Please Reach out here...</p>
             <a  type = "button" class = "btn btn-outline-success" th:href = "@{/create}">Create Order</a>
@@ -47,6 +51,8 @@
                             <th>Total Prices</th>
                             <th>Check In</th>
                             <th>Check Out</th>
+                            <th>Check In Date</th> 
+        					<th>Check Out Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -55,9 +61,9 @@
                             <td th:text="${order.order_id}"></td>
                             <td th:text="${order.customer_name}"></td>
                             <td>
-                                <ul th:each="item : ${order.item_list}">
-                                    <li th:text = "${'Menu- ' +item.itemName}"></li>
-                                    <li th:text = "${'Price- ' +item.prices + '$'}"></li>
+                                <ul th:each="item : ${order.item_list}" class = "d-flex align-items-center w-150 justify-content-center gap-2">
+                                    <li th:text = "${'Menu - ' +item.itemName}"></li>
+                                    <li th:text = "${'Price - ' +item.prices + '$'}"></li>
                                 </ul>
                             </td>
                             <td th:text = "${order.quantity}"></td>
@@ -73,8 +79,10 @@
                         <form th:if="${order.checkIn && !order.checkOut}" th:action = "@{'/checkOut/' + ${order.order_id}}" method="post">
                             <button type="submit" class="btn btn-danger">Check Out</button>
                         </form>
-                        <span th:if="${order.checkOut}">Checked Out</span> <!-- just verb rejuvanations -->
+                        <span th:if ="${order.checkOut}">Checked Out</span> <!-- just verb rejuvanations -->
                     </td>
+                    <td th:text = "${order.checkInDate != null ? #temporals.format(order.checkInDate, 'yyyy-MM-dd HH:mm:ss') : 'Not Checked In'}"></td>
+                    <td th:text = "${order.checkOutDate != null ? #temporals.format(order.checkOutDate, 'yyyy-MM-dd HH:mm:ss') : 'Not Checked Out'}"></td>
                     <td class = "d-flex align-items-center justify-content-center gap-3">
                     	<a th:href = "@{'/delete/' + ${order.order_id}}" class = "btn btn-danger delete-btn rounded-pill w-100" aria-label = "delete-btn">Delete</a>
                     	<a type = "button" class = "btn btn-warning edit-btn rounded-pill w-100 p-2" data-bs-toggle = "modal" th:data-bs-target = "'#editOrderModal' + ${order.order_id}">Edit</a>
@@ -125,7 +133,6 @@
                 </form>
             </div>
         </div>
-    	
     </div>
  <script>
  document.addEventListener('DOMContentLoaded', function () {
